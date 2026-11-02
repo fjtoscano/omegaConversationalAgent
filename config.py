@@ -30,13 +30,17 @@ class Config:
 
         use_mcp = _env("USE_MCP", "true").lower() in ("true", "1", "yes")
 
-        # Injected by Agent Manager when omega-mcp is bound (OMEGA_MCP_URL),
+        # Injected by Agent Manager when omega-mcp is bound,
         # or defaults to APIM Gateway internal address
         mcp_url = _env("OMEGA_MCP_URL", "")
+        if not mcp_url:
+            mcp_url = _env("OMEGA_SERVICE_AGENT_MCP_CONFIG_URL", "")
         if not mcp_url:
             mcp_url = _env("MCP_SERVER_URL", "http://wso2-am-wso2am-all-in-one-am-service.wso2-dev.svc.cluster.local:8280/mcp/1.0.0/mcp")
 
         mcp_api_key = _env("OMEGA_MCP_API_KEY", "")
+        if not mcp_api_key:
+            mcp_api_key = _env("OMEGA_SERVICE_AGENT_MCP_CONFIG_API_KEY", "")
 
         return cls(
             company_name=company_name,
